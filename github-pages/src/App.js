@@ -1,25 +1,28 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import CardList from "./CardList";
+import Form from "./Form";
 
-function App() {
+const testData = [
+  {name:"Tanmay",avatar_url:"https://avatars.githubusercontent.com/u/281930?v=4",company:"tanri"}
+  ,{name:"Mandar",avatar_url:"https://avatars.githubusercontent.com/u/295848?v=4",company:"meta"}
+]
+
+function App(props) {
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{props.title}</h1>
+      <Form />
     </div>
   );
 }
 
 export default App;
+
+
+// const testData = [
+//   {name:"mandar",avatar_url:"https://avatars.githubusercontent.com/u/295848?v=4",company:"ms"},
+//   {name:"rohit",avatar_url:"https://avatars.githubusercontent.com/u/7758578?v=4",company:"meta"}
+// ];

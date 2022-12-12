@@ -1,0 +1,15 @@
+.github-profile{
+    position: relative;
+    margin: 1 rem;
+}
+
+.info{
+    position: absolute;
+    display: inline-block;
+    text-align: left;    
+    margin-left: 12px;
+}
+
+img{
+    width:75px
+}
