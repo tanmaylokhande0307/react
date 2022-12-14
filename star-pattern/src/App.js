@@ -1,10 +1,10 @@
 import './App.css';
-import StarMatch from './StarMatch';
+import Game from './Game';
 
 function App() {
   return (
     <div>
-      <StarMatch />
+      <Game key={1}/>
     </div>
   );
 }
