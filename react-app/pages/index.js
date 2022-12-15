@@ -1,12 +1,10 @@
 import React from 'react'
-import { data } from "../speakerData";
-import Speaker from '../src/components/Speaker';
-import Speakers from '../src/components/Speakers';
+import App from '../src/components/App';
 
 
 const index = () => {
   return (
-    <Speakers />
+    <App />
   )
 }
 

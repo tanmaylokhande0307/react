@@ -29,6 +29,16 @@ const Session = ({ session }) => {
       </div>
     )
   }
+
+  const SpeakerFavorite = ({favorite}) => {
+    return (
+      <div className="action padB1">
+        <span>
+          <i className={favorite === true ? "fa fa-star orange" : "fa fa-star-o orange"} />{" "} Favorite {" "}
+        </span>
+      </div>
+    );
+  }
   
   const SpeakerInfo = ({first,last,bio,company,twitterHandle,favorite}) => {
     return (
@@ -38,6 +48,9 @@ const Session = ({ session }) => {
             {first} {last}
           </h3>
         </div>
+
+        <SpeakerFavorite  favorite={favorite}/>
+
         <div>
           <p className="card-description">{bio}</p>
           <div className="social d-flex flex-row mt-4">
@@ -56,16 +69,18 @@ const Session = ({ session }) => {
     )
   }
   
-  const Speaker = ({speaker}) => {
+  const Speaker = ({ speaker,showSessions }) => {
     const { id,first,last,sessions } = speaker;
-  
+    
+
+
     return (
       <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
-        <div className="card card-height p-4 mt-4">
-          <SpeakerImage id={id} first={first} last={last}/>
-          <SpeakerInfo {...speaker}/>
+        <div className="card card-height p-4 mt-4">                              
+          <SpeakerImage id={id} first={first} last={last}/>                      
+          <SpeakerInfo {...speaker}/>                                                                
         </div>
-          <Sessions sessions={sessions}/>
+          { showSessions === false ? <Sessions sessions={sessions}/> : null }
       </div>
     )
   }

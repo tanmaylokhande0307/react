@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 
-const SpeakersToolbar = ({theme,setTheme}) => {
-  const [showSessions, setSessions] = useState(true);
+const SpeakersToolbar = ({theme,setTheme,showSessions,setSessions}) => {
   
-
   return (
     <section className="toolbar dark-theme-header">
       <div className="container">
@@ -12,7 +10,9 @@ const SpeakersToolbar = ({theme,setTheme}) => {
             <li className="d-flex felx-column flex-md-row">
               <b>Show sessions &nbsp;&nbsp;</b>
               <label className="fav">
-                <input type="checkbox" checked={showSessions} />
+                <input type="checkbox" onChange={() => {
+                  setSessions(!showSessions);
+                }} />
                 <span className="switch"></span>
               </label>
             </li>
@@ -22,7 +22,9 @@ const SpeakersToolbar = ({theme,setTheme}) => {
                 <select className="form-control theme" onChange={(e) => {
                   const change = e.target.value;
                   setTheme(change)
-                }}>
+                }
+                
+                }>
                   <option value="light">Light</option>
                   <option value="dark">Dark</option>
                 </select>
