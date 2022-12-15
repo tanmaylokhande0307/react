@@ -30,17 +30,17 @@ const Session = ({ session }) => {
     )
   }
 
-  const SpeakerFavorite = ({favorite}) => {
+  const SpeakerFavorite = ({ favorite,onfavoriteToggle }) => {
     return (
       <div className="action padB1">
-        <span>
-          <i className={favorite === true ? "fa fa-star orange" : "fa fa-star-o orange"} />{" "} Favorite {" "}
+        <span onClick={() => {onfavoriteToggle()}}>
+          <i className={favorite === false ? "fa fa-star orange" : "fa fa-star-o orange"} />{" "} Favorite {" "}
         </span>
       </div>
     );
   }
   
-  const SpeakerInfo = ({first,last,bio,company,twitterHandle,favorite}) => {
+  const SpeakerInfo = ({first,last,bio,company,twitterHandle,favorite,onfavoriteToggle}) => {
     return (
       <div className="speaker-info">
         <div className="d-flex justify-content-between mb-3">
@@ -49,7 +49,10 @@ const Session = ({ session }) => {
           </h3>
         </div>
 
-        <SpeakerFavorite  favorite={favorite}/>
+        <SpeakerFavorite  
+          favorite={favorite}
+          onfavoriteToggle={onfavoriteToggle}  
+        />
 
         <div>
           <p className="card-description">{bio}</p>
@@ -69,7 +72,7 @@ const Session = ({ session }) => {
     )
   }
   
-  const Speaker = ({ speaker,showSessions }) => {
+  const Speaker = ({ speaker,showSessions,onfavoriteToggle }) => {
     const { id,first,last,sessions } = speaker;
     
 
@@ -78,7 +81,7 @@ const Session = ({ session }) => {
       <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
         <div className="card card-height p-4 mt-4">                              
           <SpeakerImage id={id} first={first} last={last}/>                      
-          <SpeakerInfo {...speaker}/>                                                                
+          <SpeakerInfo {...speaker} onfavoriteToggle={onfavoriteToggle}/>                                                                
         </div>
           { showSessions === false ? <Sessions sessions={sessions}/> : null }
       </div>
