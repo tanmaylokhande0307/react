@@ -1,58 +1,58 @@
-import React from "react";
-import { useState } from "react";
+import React,{ useState,useEffect } from "react";
 import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
-import useFetch from "./services/UseFetch";
-// import { getProducts } from "./services/productService";
-import Spinner from "./Spinner";
+import Products from "./Products";
+import { Routes,Route } from "react-router-dom";
+import Detail from "./Details";
+import Cart from "./Cart";
 
 export default function App() {
-  const [size, setSize] = useState("");
 
-  const {data,error,loading} = useFetch("products?category=shoes");
-  
-  
-  function renderProduct(p) {
-    return (
-      <div key={p.id} className="product">
-        <a href="/">
-          <img src={`/images/${p.image}`} alt={p.name} />
-          <h3>{p.name}</h3>
-          <p>${p.price}</p>
-        </a>
-      </div>
-    );
+  const [cart,setcart] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("cart")) ?? [];
+    } catch (error) {
+      console.error("The cart could not be parsed into json.");
+      return [];
+    }
+  });
+
+  useEffect(() => localStorage.setItem("cart",JSON.stringify(cart)),[cart]);
+
+  function addToCart(sku,id){
+    setcart((items) => {
+      const itemInCart = items.find((i) => i.sku === sku);
+      if(itemInCart){
+        return items.map( (i) => i.sku === sku ? { ...i,quantity: i.quantity+1 } : i );
+      } 
+      else{
+        return [...items,{id,sku,quantity: 1}];
+      }
+    });
   }
-
-  const filteredProducts = size
-    ? data.filter((p) => p.skus.find((s) => s.size === parseInt(size)))
-    : data;
-
   
-
-  if(error) throw error;
-  if(loading) return <Spinner />  
-
+  function updateQuantity(sku, quantity){
+    setcart((items) => {
+      if(quantity === 0){
+        return items.filter((i) => i.sku !== sku)
+      }
+      return items.map( (i) => i.sku === sku ? {...i,quantity } : i );
+    })
+  }
+    
+  
   return (
     <>
       <div className="content">
         <Header />
         <main>
-          <section id="filters">
-            <label htmlFor="size">Filter by Size:</label>{" "}
-            <select
-              id="size"
-              value={size}
-              onChange={(e) => setSize(e.target.value)}
-            >
-              <option value="">All sizes</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-            </select>
-          </section>
-          <section id="products">{filteredProducts.map(renderProduct)}</section>
+          <Routes>
+            <Route path="/" element={<h1>Welcome</h1>}/>
+            <Route path="/:category" element={<Products />}/>
+            <Route path="/:category/:id" element={<Detail addToCart={ addToCart } />}/>
+            <Route path="/cart" element={<Cart cart={cart} updateQuantity={updateQuantity} />}/>
+          </Routes>
         </main>
       </div>
       <Footer />
