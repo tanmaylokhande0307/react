@@ -1,8 +1,10 @@
 import React from "react";
 import useFetchAll from "./services/useFetchAll";
 import Spinner from "./Spinner";
+import { useNavigate } from "react-router-dom";
 
-export default function Cart({ cart,updateQuantity }) {
+export default function Cart({ cart, updateQuantity }) {
+  const navigate = useNavigate();
   const urls = cart.map((i) => `products/${i.id}`);
   const { data: products, loading, error } = useFetchAll(urls);
 
@@ -23,7 +25,7 @@ export default function Cart({ cart,updateQuantity }) {
           <p>
             <select
               aria-label={`Select quantity for ${name} size ${size}`}
-              onChange={(e) => updateQuantity(sku,parseInt(e.target.value))}
+              onChange={(e) => updateQuantity(sku, parseInt(e.target.value))}
               value={quantity}
             >
               <option value="0">Remove</option>
@@ -42,12 +44,24 @@ export default function Cart({ cart,updateQuantity }) {
   if (loading) return <Spinner />;
   if (error) throw error;
 
-  const numItemsInCart = cart.reduce((total,item) => total+item.quantity,0 );
+  const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <section id="cart">
-      <h1>{numItemsInCart === 0 ? "Your cart is empty" : `${numItemsInCart} item${numItemsInCart > 1 ? "s" : ""} in my cart`}</h1>
+      <h1>
+        {numItemsInCart === 0
+          ? "Your cart is empty"
+          : `${numItemsInCart} item${numItemsInCart > 1 ? "s" : ""} in my cart`}
+      </h1>
       <ul>{cart.map(renderItem)}</ul>
+      {cart.length > 0 && (
+        <button
+          className="btn btn-primmary"
+          onClick={() => navigate("/checkout")}
+        >
+          Checkout
+        </button>
+      )}
     </section>
   );
 }
