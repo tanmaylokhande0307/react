@@ -10,7 +10,8 @@ import Spinner from "./Spinner";
 export default function App() {
   const [size, setSize] = useState("");
 
-  const {data,error,loading} = useFetch();
+  const {data,error,loading} = useFetch("products?category=shoes");
+  
   
   function renderProduct(p) {
     return (
