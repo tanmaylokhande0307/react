@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom'
 import useFetchAll from "./services/useFetchAll";
 import Spinner from "./Spinner";
 
 export default function Cart({ cart, updateQuantity }) {
+  const navigate = useNavigate();
   const urls = cart.map((i) => `products/${i.id}`);
   const { data: products, loading, error } = useFetchAll(urls);
 
@@ -50,6 +52,9 @@ export default function Cart({ cart, updateQuantity }) {
     <section id="cart">
       <h1>{numOfItemsInCart === 0 ? "Your cart is empty" : `${numOfItemsInCart} item${numOfItemsInCart>1?'s':''} in cart`}</h1>
       <ul>{cart.map(renderItem)}</ul>
+      {cart.length > 0 && (<button onClick={() => {navigate('/checkout')}} className="btn btn-primary">
+        Checkout
+      </button>)}
     </section>
   );
 }
