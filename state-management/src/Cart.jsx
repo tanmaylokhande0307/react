@@ -12,8 +12,9 @@ export default function Cart({ cart, updateQuantity }) {
       (p) => p.id === parseInt(id)
     );
     const { size } = skus.find((s) => s.sku === sku);
-
+ 
     return (
+      <>
       <li key={sku} className="cart-item">
         <img src={`/images/${image}`} alt={name} />
         <div>
@@ -36,15 +37,18 @@ export default function Cart({ cart, updateQuantity }) {
           </p>
         </div>
       </li>
+      </>
     );
   }
 
   if (loading) return <Spinner />;
   if (error) throw error;
 
+  const numOfItemsInCart = cart.reduce((total,item) => total + item.quantity,0)
+
   return (
     <section id="cart">
-      <h1>Cart</h1>
+      <h1>{numOfItemsInCart === 0 ? "Your cart is empty" : `${numOfItemsInCart} item${numOfItemsInCart>1?'s':''} in cart`}</h1>
       <ul>{cart.map(renderItem)}</ul>
     </section>
   );
