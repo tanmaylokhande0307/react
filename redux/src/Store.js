@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { customReducer } from "./Reducers";
+import  Course  from "./Reducers";
 
 const store = configureStore({
   reducer: {
-    custom: customReducer,
+    course: Course
   },
 });
 
